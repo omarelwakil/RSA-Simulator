@@ -2,6 +2,16 @@ import numpy as np
 import random
 
 
+def mod_exponentiation(a: int, b: int, m: int):
+    result = 1
+    while b > 0:
+        if b % 2 == 1:
+            result = (result * a) % m
+        a = (a * a) % m
+        b = b // 2
+    return result
+
+
 def is_prime(p: int):
     for i in range(2, p):
         if p % i == 0:
@@ -40,9 +50,10 @@ def key_generation(p: int, q: int):
 
     selected_e = 0
     e_s = []
-    , phi) == 1:
+    for is_e in range(2, phi):
+        if gcd(is_e, phi) == 1:
             e_s.append(is_e)
-    print(e_s)
+
     if len(e_s) == 0:
         raise ValueError('ERROR(103): No e value found.')
 
@@ -64,8 +75,12 @@ def encryption(plaintext: str, e: int, n: int):
 
     print("Plaintext: ", plaintext_keys)
 
-    ciphertext_keys = np.asarray([[pow(p, e, n), chr(pow(p, e, n))]
-                                  for p in plaintext_keys])
+    ciphertext_keys = []
+    for p in plaintext_keys:
+        # c = pow(p, e, n)
+        c = mod_exponentiation(p, e, n)
+        ciphertext_keys.append([c, chr(c)])
+    ciphertext_keys = np.asarray(ciphertext_keys)
     # print("Ciphertext: ", ciphertext_keys[:, 0])
 
     return ','.join(np.asarray(ciphertext_keys[:, 0]).astype(str)), ''.join(np.asarray(ciphertext_keys[:, 1]).astype(str))
@@ -75,18 +90,22 @@ def decryption(ciphertext: str, d: int, n: int):
     ciphertext_keys = [int(c) for c in ciphertext.split(',')]
     print("Ciphertext: ", ciphertext_keys)
 
-    plaintext = ''.join([chr(pow(c, d, n)) for c in ciphertext_keys])
+    # plaintext = ''.join([chr(pow(c, d, n)) for c in ciphertext_keys])
+    plaintext = ''.join([chr(mod_exponentiation(c, d, n))
+                        for c in ciphertext_keys])
+
     # print("Plaintext: ", plaintext)
     print("Plaintext: ", [pow(c, d, n) for c in ciphertext_keys])
+
     return plaintext
 
 
-e, d, n, _ = key_generation(73, 151)
-print("e: ", e, ", d: ", d, ", n: ", n)
+# e, d, n, _ = key_generation(73, 151)
+# print("e: ", e, ", d: ", d, ", n: ", n)
 # print("possible_e: ", _)
-plaintext = "hello world"
-print("Plaintext(before): ", plaintext)
-ciphertext, _ = encryption(plaintext, e, n)
-print("Cipertext: ", ciphertext)
-plaintext = decryption(ciphertext, d, n)
-print("Plaintext(after): ", plaintext)
+# plaintext = "hello world"
+# print("Plaintext(before): ", plaintext)
+# ciphertext, _ = encryption(plaintext, e, n)
+# print("Cipertext: ", ciphertext)
+# plaintext = decryption(ciphertext, d, n)
+# print("Plaintext(after): ", plaintext)
