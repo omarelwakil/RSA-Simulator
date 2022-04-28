@@ -40,10 +40,9 @@ def key_generation(p: int, q: int):
 
     selected_e = 0
     e_s = []
-    for is_e in range(2, phi):
-        if gcd(is_e, phi) == 1:
+    , phi) == 1:
             e_s.append(is_e)
-
+    print(e_s)
     if len(e_s) == 0:
         raise ValueError('ERROR(103): No e value found.')
 
@@ -82,12 +81,12 @@ def decryption(ciphertext: str, d: int, n: int):
     return plaintext
 
 
-# e, d, n, _ = key_generation(73, 151)
-# print("e: ", e, ", d: ", d, ", n: ", n)
-# # print("possible_e: ", _)
-# plaintext = "hello world"
-# print("Plaintext(before): ", plaintext)
-# ciphertext, _ = encryption(plaintext, e, n)
-# print("Cipertext: ", ciphertext)
-# plaintext = decryption(ciphertext, d, n)
-# print("Plaintext(after): ", plaintext)
+e, d, n, _ = key_generation(73, 151)
+print("e: ", e, ", d: ", d, ", n: ", n)
+# print("possible_e: ", _)
+plaintext = "hello world"
+print("Plaintext(before): ", plaintext)
+ciphertext, _ = encryption(plaintext, e, n)
+print("Cipertext: ", ciphertext)
+plaintext = decryption(ciphertext, d, n)
+print("Plaintext(after): ", plaintext)
