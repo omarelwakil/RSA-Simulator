@@ -65,7 +65,6 @@ def key_generation(p: int, q: int):
 
     random_index = random.randint(0, len(e_s) - 1)
     selected_e = e_s[random_index]
-    selected_e = 3
 
     d = modular_inverse(selected_e, phi)
 
