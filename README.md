@@ -11,6 +11,9 @@ We have simulated a sender/reciever using RSA Algorithm referenced in `Cryptogra
 
 ### BF Attack Example for multiple private key value
 ```python
+import rsa_algorithm as rsa
+import rsa_performance as attacks
+
 plaintext = 'M'
 p = 73
 q = 151
@@ -19,7 +22,7 @@ e, d, n, _ = rsa.key_generation(p, q)
 ciphertext, _ = rsa.encryption(plaintext, e, n)
 # ciphertext as number: 2067
 # ciphertext as str: ࠓ
-bf_d = brute_force(ciphertext, plaintext, n)
+bf_d = attacks.brute_force(ciphertext, plaintext, n)
 # private key (brute forced): 461
 ```
 You can see that the true private key is not equal to brute forced private key.
